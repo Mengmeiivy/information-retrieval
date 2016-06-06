@@ -161,3 +161,5 @@ for i in range (225):
 			f.write('\n' + query_num + ' ' + abstract_num + ' ' + similarity)
 
 f.close()
+
+
