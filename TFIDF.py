@@ -48,7 +48,6 @@ def process2 (current_list, abstract_index):
 	for word in new_list:
 		abstract_words[word]['SUM'] = abstract_words[word].get('SUM', 0.0) + 1
 
-
 # main program starts here 
 query_words = {}
 abstract_words = {}
@@ -78,16 +77,13 @@ closed_class_stop_words = ['a','the','an','and','or','but','about','above','afte
                            'you','your','yours','me','my','mine','I','we','us','much','and/or'
                            ]
 
-
 # query 
 f = open('cran.qry', 'r')
 current_list = []
 query_index = 0
 
 for line in f:
-
 	string_list = line.split()
-
 	if string_list[0] == '.I':
 		if current_list != []:
 			process (current_list, query_index)
@@ -107,9 +103,7 @@ for i in range(225):
 		idf = math.log(225.0/query_words[word]['SUM'])
 		score_list.append(tf*idf)
 	query_score.append(score_list)
-
 f.close()
-
 
 # abstract 
 f = open('cran.all.1400', 'r')
@@ -117,9 +111,7 @@ current_list = []
 abstract_index = -1
 
 for line in f:
-
 	string_list = line.split()
-
 	if string_list[0] == '.I':
 		first_w = True
 		if current_list != []:
@@ -134,9 +126,7 @@ for line in f:
 		current_list += string_list
 
 process2 (current_list, abstract_index)
-
 f.close()
-
 
 # cosine similarity 
 f = open('output.txt', 'w')
@@ -152,15 +142,10 @@ for i in range (225):
 				tf = abstract_words[word].get(j, 0.0)
 				idf = math.log(1400.0/abstract_words[word]['SUM'])
 			abstract_score.append(tf*idf)
-
-		
 		similarity = np.dot(query_score[i], abstract_score)
-	
 		if similarity != 0: 
 			similarity /= math.sqrt((np.dot(query_score[i], query_score[i]))*(np.dot(abstract_score, abstract_score)))
-
 		abstract_similarity.append(similarity)
-
 
 	abstract_similarity_index = sorted(range(len(abstract_similarity)), \
 		key = lambda k: abstract_similarity[k], reverse = True)
@@ -176,19 +161,3 @@ for i in range (225):
 			f.write('\n' + query_num + ' ' + abstract_num + ' ' + similarity)
 
 f.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
